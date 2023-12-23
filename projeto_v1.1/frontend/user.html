@@ -85,30 +85,35 @@
         </tbody>
       </table>
 
-      <div id="quiz" v-if="showQuiz">
-        <h1>{{ quiz.name }}</h1>
-        <button class="btn btn-custom" @click="closeQuiz">Close</button>
-        <form @submit.prevent="submitQuiz">
-          <div v-for="questionSet in quiz.questions" :key="questionSet[0]._id">
-            <div v-for="question in questionSet" :key="question._id">
-              <h2>{{ question.question }}</h2>
-              <div v-for="option in question.options" :key="option._id">
-                <label>
-                  <input
-                    type="radio"
-                    :name="question._id"
-                    :value="option._id"
-                    v-model="selectedOptions[question._id]" />
-                  {{ option.opcion }}
-                </label>
-              </div>
-            </div>
+      <div class="d-flex justify-content-center">
+        <div class="card w-auto my-4 text-white" v-if="showQuiz">
+          <div class="card-header">
+            <h1>{{ quiz.name }}</h1>
           </div>
-          <button class="btn btn-custom" type="submit">Submit</button>
-        </form>
+          <div class="card-body">
+            <button class="btn btn-custom" @click="closeQuiz">Close</button>
+            <form @submit.prevent="submitQuiz">
+              <div v-for="questionSet in quiz.questions" :key="questionSet[0]._id">
+                <div v-for="question in questionSet" :key="question._id">
+                  <h2>{{ question.question }}</h2>
+                  <div v-for="option in question.options" :key="option._id">
+                    <label>
+                      <input
+                        type="radio"
+                        :name="question._id"
+                        :value="option._id"
+                        v-model="selectedOptions[question._id]" />
+                      {{ option.opcion }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-custom" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
-
+      
     <!-- Script para recarregar a página ao fechar a tabela de usuários -->
     <script>
       closeQuiz = () => {

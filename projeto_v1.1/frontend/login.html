@@ -40,17 +40,17 @@
           value="0.5" />
       </div>
 
-      <div class="bottom-login">
-      <button id="loginButton" class="btn btn-primary">Login</button>
-      </div>
-
       <!-- Conteúdo de Login escondido inicialmente -->
-      <div id="loginContent" class="container py-5" style="display: none;">
+      <div id="loginContent" class="container py-5 card-animation">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <!-- Bootstrap Card com animação de digitação -->
                 <div class="card border-light mb-3">
-                    <div class="card-header">Login - Formula 1</div>
+                    <div class="card-header">
+                      <span id="typing-text">
+                      
+                      </span>
+                    </div>
                     <div class="card-body">
                         <div class="typing-animation">
                 <!-- Login Form -->
@@ -94,6 +94,27 @@
 
     <!-- JavaScript module for handling login functionality -->
     <script type="module" src="./components/Login.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Texto a ser digitado
+      var text = "Welcome to F1 Game! Please login to continue.";
+    
+      
+      // Elemento onde o texto será exibido
+      var typingText = document.getElementById("typing-text");
+      var index = 0;
+    
+      function typeLetter() {
+        if (index < text.length) {
+          typingText.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(typeLetter, 100); // Ajuste o tempo para a velocidade de digitação
+        }
+      }
+    
+      typeLetter(); // Inicia a digitação
+    });
+    </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var video = document.getElementById("background-video");

@@ -94,25 +94,18 @@ body {
   cursor: pointer;
 }
 
-/* Estilo para a animação de digitação */
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+@keyframes slideFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Estilo para o container que terá a animação */
-.typing-animation {
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid; /* Simula o cursor de digitação */
-  animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
-  /* Ajuste a duração (2s) e os passos (40) conforme necessário */
+.card-animation {
+  animation: slideFadeInUp 0.5s ease-out forwards;
 }
-
-/* Animação do cursor piscando */
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: black; }
-}
-
 
