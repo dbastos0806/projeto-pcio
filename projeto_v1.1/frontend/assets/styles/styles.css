@@ -1,0 +1,118 @@
+/* Estilos Gerais */
+body {
+  background-image: url("../img/f1.png"); /* Imagem de fundo da Fórmula 1 */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #fff; /* Texto branco */
+}
+
+/* Estilos para Cartões */
+.card {
+  background-color: rgba(0, 0, 0, 0.8);
+ /* Fundo semi-transparente para o cartão */
+}
+.card-header {
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para o cabeçalho do cartão */
+  color: white;
+}
+/* Estilos para Botões */
+.btn-primary, .btn-custom, .logout-btn, button {
+  background-color: #d00; /* Cor vermelha da Fórmula 1 */
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover, .btn-custom:hover, .logout-btn:hover, button:hover {
+  background-color: #a00; /* Cor mais escura ao passar o mouse */
+  border-color: #a00;
+}
+
+/* Estilos para Tabelas */
+.table-custom, .table-dark {
+  background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente */
+  color: white;
+}
+
+/* Estilos para Formulários */
+.form-custom {
+  background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente */
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+}
+
+/* Estilos para Rótulos */
+.user-label {
+  font-size: 24px;
+  color: white;
+}
+
+
+.admin-label {
+  font-size: 24px;
+  color: white;
+}
+
+.login-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+#background-video {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+#loginButton {
+  position: absolute;
+  top: 20px; /* ajuste para a distância do topo */
+  right: 20px; /* ajuste para a distância da direita */
+  transform: translate(0, 0);
+}
+
+#volumeControl {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.bottom-right-controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.bottom-right-controls i {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Estilo para a animação de digitação */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Estilo para o container que terá a animação */
+.typing-animation {
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid; /* Simula o cursor de digitação */
+  animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
+  /* Ajuste a duração (2s) e os passos (40) conforme necessário */
+}
+
+/* Animação do cursor piscando */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: black; }
+}
+
+

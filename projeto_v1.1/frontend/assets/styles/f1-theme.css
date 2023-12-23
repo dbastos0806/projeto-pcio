@@ -1,0 +1,39 @@
+:root {
+    --f1-red: #d50000;
+    --f1-black: #121212;
+    --f1-grey: #343a40;
+    --f1-white: #f8f9fa;
+  }
+  
+  body {
+    background-color: var(--f1-black);
+    color: var(--f1-white);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .btn-custom {
+    background-color: var(--f1-red);
+    border-color: var(--f1-grey);
+  }
+  
+  .btn-custom:hover {
+    background-color: var(--f1-grey);
+    border-color: var(--f1-red);
+  }
+  
+  .table-custom {
+    background-color: var(--f1-grey);
+    color: var(--f1-white);
+  }
+  
+  .table-custom th {
+    background-color: var(--f1-black);
+  }
+  
+  .form-custom input,
+  .form-custom select,
+  .form-custom textarea {
+    background-color: var(--f1-grey);
+    color: var(--f1-white);
+  }
+  

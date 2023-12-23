@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+
+    <!-- Adiciona o link para a folha de estilos 'animate.css' -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- Adiciona o link para a folha de estilos do Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous" />
+    <!-- Adiciona o script do Bootstrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"></script>
+    <!-- Adiciona o script do Popper.js -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"></script>
+    <!-- Adiciona a folha de estilos personalizada-->
+    <link rel="stylesheet" href="./assets/styles/styles.css" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- Label Admin -->
+        <a class="navbar-brand" href="">Admin</a>
+
+        <!-- Botões na Navbar -->
+        <div class="d-flex">
+          <button class="btn btn-custom me-2" onclick="location.href='/user'">
+            User
+          </button>
+          <button class="btn logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contêiner do user-->
+    <div id="app">
+      <!-- Botão para carregar usuários com a função associada 'fetchUsers' -->
+      <button
+        class="btn btn-custom"
+        @click="fetchUsers"
+        v-if="closeLoadUsersButton">
+        Load Users
+      </button>
+
+      <!-- Botão para criar novo usuário com a função associada 'showCreateUserButton' -->
+      <button
+        class="btn btn-custom"
+        id="mostrarForm"
+        @click="createUserForm()"
+        v-if="showCreateUserButton">
+        Create New User
+      </button>
+      <!-- Botão para fechar a tabela de usuários com a função associada 'closeUsers()' -->
+      <button
+        class="btn btn-custom"
+        id="ocultarUsers"
+        v-if="showCloseUsersButton"
+        onclick="closeUsers()">
+        Close Table
+      </button>
+
+      <!-- Tabela de usuários -->
+      <table class="table table-dark">
+        <!-- Cabeçalho da tabela, renderizado se 'showTableHeader' for verdadeiro -->
+        <thead v-if="showTableHeader">
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <!-- Corpo da tabela, exibindo dados dos usuários -->
+        <tbody>
+          <tr v-for="user in users" :key="user._id">
+            <td>{{ user._id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.phone }}</td>
+            <td>
+              <!-- Botões de ação para editar e excluir usuário -->
+              <button class="btn btn-custom" @click="editUser(user._id)">
+                Edit
+              </button>
+              <button class="btn btn-custom" @click="deleteUser(user._id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="form-custom" v-if="showFormUser">
+        <label for="create-email">Novo Email:</label>
+        <input type="text" id="create-email" required />
+
+        <label for="create-firstName">Novo First Name:</label>
+        <input type="text" id="create-firstName" required />
+
+        <label for="create-lastName">Novo Last Name:</label>
+        <input type="text" id="create-lastName" required />
+
+        <label for="create-phone">Novo Phone:</label>
+        <input type="text" id="create-phone" required />
+
+        <button class="btn btn-custom" type="button" @click="saveUser">
+          Criar Novo Usuário
+        </button>
+        <button class="btn btn-custom" type="button" @click="closeNewUser()">
+          Cancel
+        </button>
+      </div>
+
+      <!-- Formulário de edição de usuário -->
+      <div class="form-custom" v-if="showEditForm">
+        <h3>Editar Usuário</h3>
+        <label for="edit-email">Email:</label>
+        <input type="text" id="edit-email" v-model="editUser.email" required />
+
+        <label for="edit-firstName">First Name:</label>
+        <input
+          type="text"
+          id="edit-firstName"
+          v-model="editUser.firstName"
+          required />
+
+        <label for="edit-lastName">Last Name:</label>
+        <input
+          type="text"
+          id="edit-lastName"
+          v-model="editUser.lastName"
+          required />
+
+        <label for="edit-phone">Phone:</label>
+        <input type="text" id="edit-phone" v-model="editUser.phone" required />
+
+        <button class="btn btn-custom" type="button" @click="updateUser">
+          Salvar Alterações
+        </button>
+        <button class="btn btn-custom" type="button" @click="cancelEdit">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- conteiner do quiz-->
+    <div id="appQuiz">
+      <!-- Botão para carregar Quiz com a função associada 'fetchQuiz' -->
+      <button
+        class="btn btn-custom"
+        id="mostrarQuiz"
+        @click="fetchQuizzes"
+        v-if="LoadQuizButton">
+        Load Quiz
+      </button>
+
+      <!-- Botão para criar novo Quiz com a função associada 'showCreateQuizButton'-->
+      <button
+        class="btn btn-custom"
+        id="mostrarFormquiz"
+        @click="showCreateQuizForm = true"
+        v-if="showCreateQuizButton">
+        Create New Quiz
+      </button>
+
+      <!-- Botão para fechar a tabela de Quiz com a função associada 'closeQuiz()' -->
+      <button
+        class="btn btn-custom"
+        id="ocultarQuiz"
+        v-if="CloseQuizButton"
+        onclick="closeQuiz()">
+        Close Table
+      </button>
+
+      <!-- Tabela de Quiz -->
+      <table class="table table-dark">
+        <!-- Cabeçalho da tabela, renderizado se 'showTableHeader' for verdadeiro -->
+        <thead v-if="showTableHeaderQuiz">
+          <tr>
+            <th>ID</th>
+            <th>Quiz Name</th>
+            <th>Number questions</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <!-- Corpo da tabela, exibindo dados dos Quiz -->
+        <tbody>
+          <tr v-for="quiz in quizzes" :key="quiz._id">
+            <td>{{ quiz._id }}</td>
+            <td>{{ quiz.name }}</td>
+            <td>{{ quiz.questions.length }}</td>
+            <td>
+              <!-- Botões de ação para editar e excluir Quiz -->
+              <button class="btn btn-custom" @click="editQuiz(quiz._id)">
+                Edit
+              </button>
+              <button class="btn btn-custom" @click="deleteQuiz(quiz._id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Formulário de criação de Quiz -->
+      <div class="form-custom" v-if="showCreateQuizForm">
+        <h3>Criar Novo Quiz</h3>
+        <label for="quiz-name">Nome do Quiz:</label>
+        <input type="text" id="quiz-name" v-model="newQuiz.name" required />
+
+        <div v-for="(question, qIndex) in newQuiz.questions" :key="qIndex">
+          <label for="question-text">Pergunta {{ qIndex + 1 }}:</label>
+          <input
+            type="text"
+            :id="'question-' + qIndex"
+            v-model="question.text"
+            required />
+
+          <div v-for="(option, oIndex) in question.options" :key="oIndex">
+            <input
+              type="text"
+              :placeholder="'Opção ' + (oIndex + 1)"
+              v-model="option.text"
+              required />
+            <input
+              type="checkbox"
+              :id="'correct-' + qIndex + '-' + oIndex"
+              v-model="option.correct" />
+            <label :for="'correct-' + qIndex + '-' + oIndex">Correta?</label>
+          </div>
+
+          <button
+            class="btn btn-custom"
+            type="button"
+            @click="addOption(qIndex)">
+            Adicionar Opção
+          </button>
+          <button
+            class="btn btn-custom"
+            type="button"
+            @click="removeQuestion(qIndex)">
+            Remover Pergunta
+          </button>
+        </div>
+
+        <button class="btn btn-custom" type="button" @click="addQuestion">
+          Adicionar Pergunta
+        </button>
+        <button class="btn btn-custom" type="button" @click="saveQuiz">
+          Salvar Quiz
+        </button>
+        <button class="btn btn-custom" type="button" @click="cancelCreateQuiz">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Script para recarregar a página -->
+    <script>
+      closeQuiz = () => {
+        window.location.reload(); // Recarrega a página
+      };
+    </script>
+
+    <!-- Script para recarregar a página ao fechar a tabela de usuários -->
+    <script>
+      closeUsers = () => {
+        window.location.reload(); // Recarrega a página
+      };
+    </script>
+    <!-- Importa os scripts JavaScript modulares -->
+    <script type="module" src="./components/Admin.js"></script>
+    <script src="./components/Logout.js"></script>
+    <script type="module" src="./components/TableUser.js"></script>
+    <script type="module" src="./components/TableQuiz.js"></script>
+    <!--<script type="module" src="./components/TableQuiz.js"></script>-->
+  </body>
+</html>
