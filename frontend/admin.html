@@ -233,12 +233,10 @@
             v-model="question.text"
             required />
 
-          <div v-for="(option, oIndex) in question.options" :key="oIndex">
-            <input
-              type="text"
-              :placeholder="'Opção ' + (oIndex + 1)"
-              v-model="option.text"
-              required />
+            <div v-for="(option, oIndex) in question.options" :key="oIndex">
+              <input type="text" v-model="option.text" required />
+          </div>
+          
             <input
               type="checkbox"
               :id="'correct-' + qIndex + '-' + oIndex"

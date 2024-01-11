@@ -28,11 +28,11 @@ newQuiz: {
 
   addOption(qIndex) {
     if (this.newQuiz.questions[qIndex].options.length < 4) {
-      this.newQuiz.questions[qIndex].options.push({ text: '', correct: false });
+        this.newQuiz.questions[qIndex].options.push({ text: '', correct: false });
     } else {
-      alert('Máximo de 4 opções por pergunta.');
+        alert('Máximo de 4 opções por pergunta.');
     }
-  },
+},
 
   removeQuestion(qIndex) {
     this.newQuiz.questions.splice(qIndex, 1);
