@@ -219,55 +219,28 @@
         </tbody>
       </table>
 
-      <!-- Formulário de criação de Quiz -->
-      <div class="form-custom" v-if="showCreateQuizForm">
-        <h3>Criar Novo Quiz</h3>
-        <label for="quiz-name">Nome do Quiz:</label>
-        <input type="text" id="quiz-name" v-model="newQuiz.name" required />
-
-        <div v-for="(question, qIndex) in newQuiz.questions" :key="qIndex">
-          <label for="question-text">Pergunta {{ qIndex + 1 }}:</label>
-          <input
-            type="text"
-            :id="'question-' + qIndex"
-            v-model="question.text"
-            required />
-
-            <div v-for="(option, oIndex) in question.options" :key="oIndex">
-              <input type="text" v-model="option.text" required />
-          </div>
-          
-            <input
-              type="checkbox"
-              :id="'correct-' + qIndex + '-' + oIndex"
-              v-model="option.correct" />
-            <label :for="'correct-' + qIndex + '-' + oIndex">Correta?</label>
-          </div>
-
-          <button
-            class="btn btn-custom"
-            type="button"
-            @click="addOption(qIndex)">
-            Adicionar Opção
-          </button>
-          <button
-            class="btn btn-custom"
-            type="button"
-            @click="removeQuestion(qIndex)">
-            Remover Pergunta
-          </button>
-        </div>
-
-        <button class="btn btn-custom" type="button" @click="addQuestion">
-          Adicionar Pergunta
-        </button>
-        <button class="btn btn-custom" type="button" @click="saveQuiz">
-          Salvar Quiz
-        </button>
-        <button class="btn btn-custom" type="button" @click="cancelCreateQuiz">
-          Cancelar
-        </button>
-      </div>
+      <div v-if="showCreateQuizForm">
+<div id="appQuiz" class="container">
+  <h2>Create Quiz</h2>
+  <div>
+    <label for="quiz-name">Nome do Quiz:</label>
+    <input type="text" id="quiz-name" v-model="newQuiz.name" required />
+  </div>
+  <div v-for="(question, index) in newQuiz.questions" :key="index">
+    <label for="'question-' + index">Pergunta {{ index + 1 }}:</label>
+    <input type="text" :id="'question-' + index" v-model="question.question" required />
+    <div v-for="(option, oIndex) in question.options" :key="oIndex">
+      <input type="text" v-model="option.opcion" required />
+      <input type="checkbox" v-model="option.correct" />
+      <label>Correta</label>
+    </div>
+    
+    <button class="btn btn-custom" @click="removeQuestion(index)">Remove Question</button>
+  </div>
+  <button class="btn btn-custom"  @click="addQuestion">Add Question</button>
+  <button class="btn btn-custom" @click="saveQuiz">Save Quiz</button>
+  <button class="btn btn-custom" @click="cancelQuizCreation">Cancel</button>
+</div>
     </div>
 
     <!-- Script para recarregar a página -->

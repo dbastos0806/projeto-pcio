@@ -16,7 +16,7 @@ export const createQuiz = async (req, res) => {
             });
             const savedQuiz = await quizObj.save();
             res.status(201).json({
-                massage: "Quiz created successfully",
+                message: "Quiz created successfully",
                 quiz: savedQuiz,
             });
         } catch (error) {

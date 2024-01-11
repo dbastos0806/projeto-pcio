@@ -1,47 +1,66 @@
 import { createApp, reactive } from 'https://unpkg.com/petite-vue?module';
 
-// Criação da aplicação PetiteVue
 const appQuiz = createApp({
-    quizzes: [],
-    showTableHeaderQuiz: false,
-    showCreateQuizButton: false,
-    LoadQuizButton: true,
-    CloseQuizButton: false,
-    showQuiz: false,
-    quiz: {},
-    selectedOptions: {},
-
-    // Estado inicial para um novo quiz
-newQuiz: {
+  quizzes: [],
+  showTableHeaderQuiz: false,
+  showCreateQuizButton: false,
+  LoadQuizButton: true,
+  CloseQuizButton: false,
+  showCreateQuizForm: false,
+  newQuiz: {
     name: '',
     questions: [],
   },
-  showCreateQuizForm: false,
-  
-  // Funções para o formulário de criação de quiz
+
+  // Método para exibir o formulário
+  displayCreateQuizForm() {
+    this.showCreateQuizForm = true;
+  },
+
+  // Adiciona uma nova pergunta ao quiz
   addQuestion() {
     this.newQuiz.questions.push({
-      text: '',
-      options: Array(4).fill({ text: '', correct: false })
+      question: '',
+      options: [
+        { opcion: '', correct: false },
+        { opcion: '', correct: false },
+        { opcion: '', correct: false },
+        { opcion: '', correct: false }
+      ]
     });
   },
 
-  addOption(qIndex) {
-    if (this.newQuiz.questions[qIndex].options.length < 4) {
-        this.newQuiz.questions[qIndex].options.push({ text: '', correct: false });
-    } else {
-        alert('Máximo de 4 opções por pergunta.');
-    }
-},
 
+  // Remove uma pergunta específica
   removeQuestion(qIndex) {
     this.newQuiz.questions.splice(qIndex, 1);
   },
 
-
+  // Salva o novo quiz
   async saveQuiz() {
+        // Verificação de pelo menos uma pergunta
+        if (this.newQuiz.questions.length === 0) {
+          alert('O quiz deve ter pelo menos uma pergunta.');
+          return;
+        }
+      
+        // Verificação de quatro opções por pergunta e pelo menos uma opção correta
+        for (let question of this.newQuiz.questions) {
+          if (question.options.length !== 4) {
+            alert('Cada pergunta deve ter quatro opções.');
+            return;
+          }
+      
+          // Verifica se há pelo menos uma opção correta
+          const hasCorrectOption = question.options.some(option => option.correct);
+          if (!hasCorrectOption) {
+            alert('Cada pergunta deve ter pelo menos uma opção correta.');
+            return;
+          }
+        }
+      
     try {
-      const url = "http://localhost:3000/quiz/create";
+      const url = "http://localhost:3000/quiz/create"; // Ajuste a URL conforme sua API
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -49,11 +68,11 @@ newQuiz: {
         },
         body: JSON.stringify(this.newQuiz),
       });
-  
+
       if (!response.ok) {
-        throw new Error(response.statusText);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       // Resetar o formulário após salvar e recarregar a lista de quizzes
       this.newQuiz = { name: '', questions: [] };
       this.showCreateQuizForm = false;
@@ -62,36 +81,33 @@ newQuiz: {
       console.error("Erro ao salvar o quiz:", error);
     }
   },
-  
+
+  // Cancela a criação de um novo quiz
   cancelCreateQuiz() {
     this.newQuiz = { name: '', questions: [] };
     this.showCreateQuizForm = false;
   },
 
+  // Carrega os quizzes existentes
+  async fetchQuizzes() {
+    try {
+      const url = "http://localhost:3000/quiz/";
+      const response = await fetch(url);
 
-    // Função assíncrona para buscar quizzes
-    async fetchQuizzes() {
-        try {
-            const url = "http://localhost:3000/quiz/";
-            const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-
-            const data = await response.json();
-
-            // Atualiza o estado da aplicação com os quizzes e ajusta as variáveis de exibição
-            this.quizzes = data;
-            this.showTableHeaderQuiz = true;
-            this.showCreateQuizButton = true;
-            this.LoadQuizButton = false;
-            this.CloseQuizButton = true;
-        } catch (error) {
-            console.error("Erro:", error);
-            throw error;
-        }
-    },
+      const quizzes = await response.json();
+      this.quizzes = quizzes;
+      this.showTableHeaderQuiz = true;
+      this.LoadQuizButton = false;
+      this.CloseQuizButton = true;
+      this.showCreateQuizButton = true;
+    } catch (error) {
+      console.error("Erro ao buscar quizzes:", error);
+    }
+  },
 
     // Função para editar quiz
     async editQuiz(quizId) {

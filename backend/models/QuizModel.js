@@ -1,20 +1,36 @@
-// Initialize Mongoose
-
 import mongoose from "mongoose";
-import questionsSchema from "./QuestionsModel.js";
 
-var schema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    questions: [{
-        type: [questionsSchema],
-        ref: 'Question'
-    }]
-    });
+// Esquema para as opções de resposta
+const optionSchema = new mongoose.Schema({
+  opcion: {
+    type: String,
+    required: true
+  },
+  correct: {
+    type: Boolean,
+    required: true
+  }
+});
 
-var Quiz = new mongoose.model("Quiz", schema);
+// Esquema para as perguntas
+const questionSchema = new mongoose.Schema({
+  question: {
+    type: String,
+    required: true
+  },
+  options: [optionSchema]
+});
+
+// Esquema para o quiz
+const quizSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  questions: [questionSchema]
+});
+
+const Quiz = mongoose.model("Quiz", quizSchema);
 
 export default Quiz;

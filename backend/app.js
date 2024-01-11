@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import { dbConfig } from './config/database.config.js';
 import UserRoutes from './routes/UserRoutes.js';
 import QuizRoutes from './routes/QuizRoutes.js';
-import QuestionRoutes from './routes/QuestionsRoutes.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -63,9 +62,6 @@ app.use("/userdb", cors(), UserRoutes);
 
 // Apply cors middleware only to the '/quiz' route
 app.use("/quiz", cors(), QuizRoutes);
-
-// Apply cors middleware only to the '/question' route
-app.use("/quiz/question", cors(), QuestionRoutes);
 
 // listen for requests
 app.listen(port, ()=> {
