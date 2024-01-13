@@ -55,16 +55,6 @@ const loginApp = reactive({
     } finally {
       this.isLoading = false;
     }
-  },
-  logout() {
-    // Remover token do localStorage
-    localStorage.removeItem('isLoggedin');
-
-    this.user = null;
-    this.password = '';
-    this.isLoggedin = false;
-    // Redirecionar de volta para a página de login
-    window.location.href = '/';
   }
   
 });

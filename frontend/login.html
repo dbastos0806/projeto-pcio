@@ -15,12 +15,14 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
     <!-- Custom styles for the login page -->
     <link rel="stylesheet" href="/assets/styles/styles.css" />
   </head>
+
   <body>
     <main class="login-container">
-      <!-- Vídeo de fundo de tela cheia -->
+      <!-- Full-screen background video -->
       <video autoplay loop muted id="background-video">
         <source
           src="./assets/videos/F1 Edit - Survivor (2022 Hype Video).mp4"
@@ -28,7 +30,7 @@
         Seu navegador não suporta vídeos.
       </video>
 
-      <!-- Botão para mostrar o formulário de login -->
+      <!-- Controls at the bottom right corner -->
       <div class="bottom-right-controls">
         <i id="muteIcon" class="fas fa-volume-up"></i>
         <input
@@ -40,50 +42,55 @@
           value="0.5" />
       </div>
 
-      <!-- Conteúdo de Login escondido inicialmente -->
-      <div id="loginContent" class="container py-5 card-animation">
+      <!-- Button to show the login form -->
+      <button class="btn btn-primary login-btn" id="loginButton">Login</button>
+
+      <!-- Initially hidden login content -->
+      <div
+        id="loginContent"
+        class="container py-5 card-animation"
+        style="display: none">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <!-- Bootstrap Card com animação de digitação -->
-                <div class="card border-light mb-3">
-                    <div class="card-header">
-                      <span id="typing-text">
-                      
-                      </span>
-                    </div>
-                    <div class="card-body">
-                        <div class="typing-animation">
-                <!-- Login Form -->
-                <div
-                  v-scope="loginApp"
-                  class="animate__animated animate__fadeIn">
-                  <form v-if="!isLoggedin" @submit.prevent="login">
-                    <!-- Username input field -->
-                    <div class="mb-3">
-                      <input
-                        type="text"
-                        v-model="username"
-                        placeholder="Username"
-                        class="form-control" />
-                    </div>
+          <div class="col-md-6">
+            <!-- Bootstrap Card with typing animation -->
+            <div class="card border-light mb-3">
+              <div class="card-header">
+                <span id="typing-text"></span>
+              </div>
+              <div class="card-body">
+                <div class="typing-animation">
+                  <!-- Login Form -->
+                  <div
+                    v-scope="loginApp"
+                    class="animate__animated animate__fadeIn">
+                    <form v-if="!isLoggedin" @submit.prevent="login">
+                      <!-- Username input field -->
+                      <div class="mb-3">
+                        <input
+                          type="text"
+                          v-model="username"
+                          placeholder="Username"
+                          class="form-control" />
+                      </div>
 
-                    <!-- Password input field -->
-                    <div class="mb-3">
-                      <input
-                        type="password"
-                        v-model="password"
-                        placeholder="Password"
-                        class="form-control" />
-                    </div>
+                      <!-- Password input field -->
+                      <div class="mb-3">
+                        <input
+                          type="password"
+                          v-model="password"
+                          placeholder="Password"
+                          class="form-control" />
+                      </div>
 
-                    <!-- Login button -->
-                    <button
-                      type="submit"
-                      :area-busy="isLoading.toString()"
-                      class="btn btn-primary login-btn">
-                      Login
-                    </button>
-                  </form>
+                      <!-- Login button -->
+                      <button
+                        type="submit"
+                        :area-busy="isLoading.toString()"
+                        class="btn btn-primary login-btn">
+                        Login
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -94,59 +101,65 @@
 
     <!-- JavaScript module for handling login functionality -->
     <script type="module" src="./components/Login.js"></script>
+
+    <!-- Script to animate typing text on page load -->
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Texto a ser digitado
-      var text = "Welcome to F1 Game! Please login to continue.";
-    
-      
-      // Elemento onde o texto será exibido
-      var typingText = document.getElementById("typing-text");
-      var index = 0;
-    
-      function typeLetter() {
-        if (index < text.length) {
-          typingText.innerHTML += text.charAt(index);
-          index++;
-          setTimeout(typeLetter, 100); // Ajuste o tempo para a velocidade de digitação
+      document.addEventListener("DOMContentLoaded", function () {
+        // Text to be typed
+        var text = "Welcome to F1 Game! Please login to continue.";
+
+        // Element where the text will be displayed
+        var typingText = document.getElementById("typing-text");
+        var index = 0;
+
+        function typeLetter() {
+          if (index < text.length) {
+            typingText.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeLetter, 100); // Adjust the timing for typing speed
+          }
         }
-      }
-    
-      typeLetter(); // Inicia a digitação
-    });
+
+        typeLetter(); // Start typing
+      });
     </script>
+
+    <!-- Script for controlling video volume and login form display -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var video = document.getElementById("background-video");
         var volumeControl = document.getElementById("volumeControl");
         var muteIcon = document.getElementById("muteIcon");
+        var loginButton = document.getElementById("loginButton");
 
-        // Inicializa o volume do vídeo
+        // Initialize video volume
         video.volume = volumeControl.value;
 
-        // Controle de volume
+        // Volume control
         volumeControl.addEventListener("input", function () {
           video.volume = this.value;
           video.muted = false;
-          muteIcon.className = "fas fa-volume-up"; // Altera o ícone para volume alto
+          muteIcon.className = "fas fa-volume-up"; // Change icon to high volume
         });
 
-        // Ícone de Mute/Unmute
+        // Mute/Unmute icon
         muteIcon.addEventListener("click", function () {
           video.muted = !video.muted;
           this.className = video.muted
             ? "fas fa-volume-mute"
-            : "fas fa-volume-up"; // Altera o ícone
+            : "fas fa-volume-up"; // Change icon
         });
 
-        // Mostrar formulário de login
-        document.getElementById('loginButton').addEventListener('click', function() {
-        var loginContent = document.getElementById('loginContent');
-        loginContent.style.display = 'block';
-        loginContent.querySelector('.typing-animation').classList.add('typing-animation');
-        document.querySelector('.bottom-login').style.display = 'none';
-    });
-});
+        // Show login form
+        loginButton.addEventListener("click", function () {
+          var loginContent = document.getElementById("loginContent");
+          loginContent.style.display = "block";
+          loginContent
+            .querySelector(".typing-animation")
+            .classList.add("typing-animation");
+          loginButton.style.display = "none";
+        });
+      });
     </script>
   </body>
 </html>

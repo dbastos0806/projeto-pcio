@@ -36,54 +36,60 @@ const appQuiz = createApp({
     this.newQuiz.questions.splice(qIndex, 1);
   },
 
-  // Salva o novo quiz
+ //salvar
   async saveQuiz() {
-        // Verificação de pelo menos uma pergunta
-        if (this.newQuiz.questions.length === 0) {
-          alert('O quiz deve ter pelo menos uma pergunta.');
-          return;
-        }
-      
-        // Verificação de quatro opções por pergunta e pelo menos uma opção correta
-        for (let question of this.newQuiz.questions) {
-          if (question.options.length !== 4) {
-            alert('Cada pergunta deve ter quatro opções.');
-            return;
-          }
-      
-          // Verifica se há pelo menos uma opção correta
-          const hasCorrectOption = question.options.some(option => option.correct);
-          if (!hasCorrectOption) {
-            alert('Cada pergunta deve ter pelo menos uma opção correta.');
-            return;
-          }
-        }
-      
-    try {
-      const url = "http://localhost:3000/quiz/create"; // Ajuste a URL conforme sua API
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.newQuiz),
-      });
+  // Verificação de pelo menos uma pergunta
+  if (this.newQuiz.questions.length === 0) {
+    alert('O quiz deve ter pelo menos uma pergunta.');
+    return;
+  }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // Resetar o formulário após salvar e recarregar a lista de quizzes
-      this.newQuiz = { name: '', questions: [] };
-      this.showCreateQuizForm = false;
-      await this.fetchQuizzes();
-    } catch (error) {
-      console.error("Erro ao salvar o quiz:", error);
+  // Verificação de quatro opções por pergunta e pelo menos uma opção correta
+  for (let question of this.newQuiz.questions) {
+    if (question.options.length !== 4) {
+      alert('Cada pergunta deve ter quatro opções.');
+      return;
     }
-  },
+
+    // Verifica se há pelo menos uma opção correta
+    const hasCorrectOption = question.options.some(option => option.correct);
+    if (!hasCorrectOption) {
+      alert('Cada pergunta deve ter pelo menos uma opção correta.');
+      return;
+    }
+  }
+
+  // Determinar se é para criar um novo quiz ou atualizar um existente
+  const isNewQuiz = !this.newQuiz._id;
+  const url = isNewQuiz ? "http://localhost:3000/quiz/create" : `http://localhost:3000/quiz/${this.newQuiz._id}`;
+  const method = isNewQuiz ? 'POST' : 'PATCH';
+
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.newQuiz),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Resetar o formulário após salvar e recarregar a lista de quizzes
+    this.newQuiz = { name: '', questions: [] };
+    this.showCreateQuizForm = false;
+    await this.fetchQuizzes();
+  } catch (error) {
+    console.error("Erro ao salvar o quiz:", error);
+  }
+},
+
+
 
   // Cancela a criação de um novo quiz
-  cancelCreateQuiz() {
+ async cancelCreateQuiz() {
     this.newQuiz = { name: '', questions: [] };
     this.showCreateQuizForm = false;
   },
@@ -110,9 +116,17 @@ const appQuiz = createApp({
   },
 
     // Função para editar quiz
-    async editQuiz(quizId) {
-        console.log("Editar quiz com ID:", quizId);
+    editQuiz(quizId) {
+      const quizToEdit = this.quizzes.find(quiz => quiz._id === quizId);
+      if (quizToEdit) {
+        this.newQuiz = { ...quizToEdit };
+        this.showCreateQuizForm = true;
+      } else {
+        console.error("Quiz não encontrado!");
+      }
     },
+
+
     
     // Função assíncrona para excluir quiz
     async deleteQuiz(quizId) {

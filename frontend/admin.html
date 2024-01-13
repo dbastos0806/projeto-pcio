@@ -25,6 +25,12 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"
       integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
       crossorigin="anonymous"></script>
+
+    <!-- Adiciona a biblioteca FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
     <!-- Adiciona a folha de estilos personalizada-->
     <link rel="stylesheet" href="./assets/styles/styles.css" />
   </head>
@@ -38,14 +44,16 @@
         <!-- Botões na Navbar -->
         <div class="d-flex">
           <button class="btn btn-custom me-2" onclick="location.href='/user'">
-            User
+            <i class="fas fa-user"></i> User
           </button>
-          <button class="btn logout-btn" onclick="logout()">Logout</button>
+          <button class="btn logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
         </div>
       </div>
     </nav>
 
-    <!-- Contêiner do user-->
+    <!-- Contêiner do usuário-->
     <div id="app">
       <!-- Botão para carregar usuários com a função associada 'fetchUsers' -->
       <button
@@ -97,16 +105,17 @@
             <td>
               <!-- Botões de ação para editar e excluir usuário -->
               <button class="btn btn-custom" @click="editUser(user._id)">
-                Edit
+                <i class="fas fa-edit"></i> Edit
               </button>
               <button class="btn btn-custom" @click="deleteUser(user._id)">
-                Delete
+                <i class="fas fa-trash-alt"></i> Delete
               </button>
             </td>
           </tr>
         </tbody>
       </table>
       <div class="form-custom" v-if="showFormUser">
+        <!-- Formulário para criar novo usuário -->
         <label for="create-email">Novo Email:</label>
         <input type="text" id="create-email" required />
 
@@ -159,7 +168,7 @@
       </div>
     </div>
 
-    <!-- conteiner do quiz-->
+    <!-- Contêiner do quiz-->
     <div id="appQuiz">
       <!-- Botão para carregar Quiz com a função associada 'fetchQuiz' -->
       <button
@@ -209,38 +218,49 @@
             <td>
               <!-- Botões de ação para editar e excluir Quiz -->
               <button class="btn btn-custom" @click="editQuiz(quiz._id)">
-                Edit
+                <i class="fas fa-edit"></i> Edit
               </button>
               <button class="btn btn-custom" @click="deleteQuiz(quiz._id)">
-                Delete
+                <i class="fas fa-trash-alt"></i> Delete
               </button>
             </td>
           </tr>
         </tbody>
       </table>
 
+      <!-- Formulário para criar novo Quiz -->
       <div v-if="showCreateQuizForm">
-<div id="appQuiz" class="container">
-  <h2>Create Quiz</h2>
-  <div>
-    <label for="quiz-name">Nome do Quiz:</label>
-    <input type="text" id="quiz-name" v-model="newQuiz.name" required />
-  </div>
-  <div v-for="(question, index) in newQuiz.questions" :key="index">
-    <label for="'question-' + index">Pergunta {{ index + 1 }}:</label>
-    <input type="text" :id="'question-' + index" v-model="question.question" required />
-    <div v-for="(option, oIndex) in question.options" :key="oIndex">
-      <input type="text" v-model="option.opcion" required />
-      <input type="checkbox" v-model="option.correct" />
-      <label>Correta</label>
-    </div>
-    
-    <button class="btn btn-custom" @click="removeQuestion(index)">Remove Question</button>
-  </div>
-  <button class="btn btn-custom"  @click="addQuestion">Add Question</button>
-  <button class="btn btn-custom" @click="saveQuiz">Save Quiz</button>
-  <button class="btn btn-custom" @click="cancelQuizCreation">Cancel</button>
-</div>
+        <div id="appQuiz" class="container">
+          <h2>Create Quiz</h2>
+          <div>
+            <label for="quiz-name">Nome do Quiz:</label>
+            <input type="text" id="quiz-name" v-model="newQuiz.name" required />
+          </div>
+          <div v-for="(question, index) in newQuiz.questions" :key="index">
+            <label for="'question-' + index">Pergunta {{ index + 1 }}:</label>
+            <input
+              type="text"
+              :id="'question-' + index"
+              v-model="question.question"
+              required />
+            <div v-for="(option, oIndex) in question.options" :key="oIndex">
+              <input type="text" v-model="option.opcion" required />
+              <input type="checkbox" v-model="option.correct" />
+              <label>Correta</label>
+            </div>
+            <button class="btn btn-custom" @click="removeQuestion(index)">
+              Remove Question
+            </button>
+          </div>
+          <button class="btn btn-custom" @click="addQuestion">
+            Add Question
+          </button>
+          <button class="btn btn-custom" @click="saveQuiz">Save Quiz</button>
+          <button class="btn btn-custom" @click="cancelCreateQuiz">
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Script para recarregar a página -->

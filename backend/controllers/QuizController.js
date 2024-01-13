@@ -55,7 +55,7 @@ export const findOneQuiz = async (req, res) => {
 }
 
 //update
-export const updateQuiz = async (req, res) => {
+/*export const updateQuiz = async (req, res) => {
     if(!req.body) {
         return res.status(400).send({
             message: "Quiz content can not be empty"
@@ -81,7 +81,40 @@ export const updateQuiz = async (req, res) => {
             message: "Error updating Quiz with id=" + id
         });
     }
-}
+}*/
+// update
+export const updateQuiz = async (req, res) => {
+    const id = req.params.id;
+
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Quiz content can not be empty",
+        });
+    }
+
+    try {
+        // Utilize findByIdAndUpdate
+        const data = await Quiz.findByIdAndUpdate(id, req.body, {
+            new: true,
+        });
+
+        if (!data) {
+            res.status(404).send({
+                message: `Cannot update Quiz with id=${id}. Maybe Quiz was not found!`,
+            });
+        }
+
+        res.send({
+            message: "Quiz was updated successfully",
+            data: data,
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: "Error updating Quiz with id=" + id,
+        });
+    }
+};
+
 
 //delete
 export const deleteQuiz = async (req, res) => {
