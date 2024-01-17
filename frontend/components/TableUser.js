@@ -18,6 +18,13 @@ editUser: {
   phone: '',
 },
 
+async closeUsers(){
+  this.users = false;
+  this.showTableHeader = false;
+  this.showCreateUserButton = false;
+  this.closeLoadUsersButton = true;
+  this.showCloseUsersButton = false;
+},
 
   // Função assíncrona para buscar usuários
   async fetchUsers() {

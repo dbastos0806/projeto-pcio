@@ -36,6 +36,22 @@ const appQuiz = createApp({
     this.newQuiz.questions.splice(qIndex, 1);
   },
 
+  async closeTableQuiz() {
+    this.quizzes = false;
+    this.showTableHeaderQuiz = false;
+    this.showCreateQuizButton = false;
+    this.LoadQuizButton = true;
+    this.CloseQuizButton = false;
+    this.showCreateQuizForm = false;
+    
+  },
+
+  async closeQuiz() {
+    this.quiz = false;
+    this.showQuiz = false;
+  },
+
+
  //salvar
   async saveQuiz() {
   // Verificação de pelo menos uma pergunta

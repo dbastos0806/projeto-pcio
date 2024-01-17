@@ -54,228 +54,233 @@
     </nav>
 
     <!-- Contêiner do usuário-->
-    <div id="app">
-      <!-- Botão para carregar usuários com a função associada 'fetchUsers' -->
-      <button
-        class="btn btn-custom"
-        @click="fetchUsers"
-        v-if="closeLoadUsersButton">
-        Load Users
-      </button>
-
-      <!-- Botão para criar novo usuário com a função associada 'showCreateUserButton' -->
-      <button
-        class="btn btn-custom"
-        id="mostrarForm"
-        @click="createUserForm()"
-        v-if="showCreateUserButton">
-        Create New User
-      </button>
-      <!-- Botão para fechar a tabela de usuários com a função associada 'closeUsers()' -->
-      <button
-        class="btn btn-custom"
-        id="ocultarUsers"
-        v-if="showCloseUsersButton"
-        onclick="closeUsers()">
-        Close Table
-      </button>
-
-      <!-- Tabela de usuários -->
-      <table class="table table-dark">
-        <!-- Cabeçalho da tabela, renderizado se 'showTableHeader' for verdadeiro -->
-        <thead v-if="showTableHeader">
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Phone</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <!-- Corpo da tabela, exibindo dados dos usuários -->
-        <tbody>
-          <tr v-for="user in users" :key="user._id">
-            <td>{{ user._id }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.phone }}</td>
-            <td>
-              <!-- Botões de ação para editar e excluir usuário -->
-              <button class="btn btn-custom" @click="editUser(user._id)">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              <button class="btn btn-custom" @click="deleteUser(user._id)">
-                <i class="fas fa-trash-alt"></i> Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="form-custom" v-if="showFormUser">
-        <!-- Formulário para criar novo usuário -->
-        <label for="create-email">Novo Email:</label>
-        <input type="text" id="create-email" required />
-
-        <label for="create-firstName">Novo First Name:</label>
-        <input type="text" id="create-firstName" required />
-
-        <label for="create-lastName">Novo Last Name:</label>
-        <input type="text" id="create-lastName" required />
-
-        <label for="create-phone">Novo Phone:</label>
-        <input type="text" id="create-phone" required />
-
-        <button class="btn btn-custom" type="button" @click="saveUser">
-          Criar Novo Usuário
+    <div class="container">
+      <div id="app">
+        <!-- Botão para carregar usuários com a função associada 'fetchUsers' -->
+        <button
+          class="btn btn-custom"
+          @click="fetchUsers"
+          v-if="closeLoadUsersButton">
+          Load Users
         </button>
-        <button class="btn btn-custom" type="button" @click="closeNewUser()">
-          Cancel
+
+        <!-- Botão para criar novo usuário com a função associada 'showCreateUserButton' -->
+        <button
+          class="btn btn-custom"
+          id="mostrarForm"
+          @click="createUserForm()"
+          v-if="showCreateUserButton">
+          Create New User
         </button>
-      </div>
-
-      <!-- Formulário de edição de usuário -->
-      <div class="form-custom" v-if="showEditForm">
-        <h3>Editar Usuário</h3>
-        <label for="edit-email">Email:</label>
-        <input type="text" id="edit-email" v-model="editUser.email" required />
-
-        <label for="edit-firstName">First Name:</label>
-        <input
-          type="text"
-          id="edit-firstName"
-          v-model="editUser.firstName"
-          required />
-
-        <label for="edit-lastName">Last Name:</label>
-        <input
-          type="text"
-          id="edit-lastName"
-          v-model="editUser.lastName"
-          required />
-
-        <label for="edit-phone">Phone:</label>
-        <input type="text" id="edit-phone" v-model="editUser.phone" required />
-
-        <button class="btn btn-custom" type="button" @click="updateUser">
-          Salvar Alterações
+        <!-- Botão para fechar a tabela de usuários com a função associada 'closeUsers()' -->
+        <button
+          class="btn btn-custom"
+          id="ocultarUsers"
+          v-if="showCloseUsersButton"
+          @click="closeUsers">
+          Close Table
         </button>
-        <button class="btn btn-custom" type="button" @click="cancelEdit">
-          Cancelar
-        </button>
-      </div>
-    </div>
 
-    <!-- Contêiner do quiz-->
-    <div id="appQuiz">
-      <!-- Botão para carregar Quiz com a função associada 'fetchQuiz' -->
-      <button
-        class="btn btn-custom"
-        id="mostrarQuiz"
-        @click="fetchQuizzes"
-        v-if="LoadQuizButton">
-        Load Quiz
-      </button>
+        <!-- Tabela de usuários -->
+        <table class="table table-dark">
+          <!-- Cabeçalho da tabela, renderizado se 'showTableHeader' for verdadeiro -->
+          <thead v-if="showTableHeader">
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-      <!-- Botão para criar novo Quiz com a função associada 'showCreateQuizButton'-->
-      <button
-        class="btn btn-custom"
-        id="mostrarFormquiz"
-        @click="showCreateQuizForm = true"
-        v-if="showCreateQuizButton">
-        Create New Quiz
-      </button>
+          <!-- Corpo da tabela, exibindo dados dos usuários -->
+          <tbody>
+            <tr v-for="user in users" :key="user._id">
+              <td>{{ user._id }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.lastName }}</td>
+              <td>{{ user.phone }}</td>
+              <td>
+                <!-- Botões de ação para editar e excluir usuário -->
+                <button class="btn btn-custom" @click="editUser(user._id)">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-custom" @click="deleteUser(user._id)">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-custom" v-if="showFormUser">
+          <!-- Formulário para criar novo usuário -->
+          <label for="create-email">Novo Email:</label>
+          <input type="text" id="create-email" required />
 
-      <!-- Botão para fechar a tabela de Quiz com a função associada 'closeQuiz()' -->
-      <button
-        class="btn btn-custom"
-        id="ocultarQuiz"
-        v-if="CloseQuizButton"
-        onclick="closeQuiz()">
-        Close Table
-      </button>
+          <label for="create-firstName">Novo First Name:</label>
+          <input type="text" id="create-firstName" required />
 
-      <!-- Tabela de Quiz -->
-      <table class="table table-dark">
-        <!-- Cabeçalho da tabela, renderizado se 'showTableHeader' for verdadeiro -->
-        <thead v-if="showTableHeaderQuiz">
-          <tr>
-            <th>ID</th>
-            <th>Quiz Name</th>
-            <th>Number questions</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+          <label for="create-lastName">Novo Last Name:</label>
+          <input type="text" id="create-lastName" required />
 
-        <!-- Corpo da tabela, exibindo dados dos Quiz -->
-        <tbody>
-          <tr v-for="quiz in quizzes" :key="quiz._id">
-            <td>{{ quiz._id }}</td>
-            <td>{{ quiz.name }}</td>
-            <td>{{ quiz.questions.length }}</td>
-            <td>
-              <!-- Botões de ação para editar e excluir Quiz -->
-              <button class="btn btn-custom" @click="editQuiz(quiz._id)">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              <button class="btn btn-custom" @click="deleteQuiz(quiz._id)">
-                <i class="fas fa-trash-alt"></i> Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <label for="create-phone">Novo Phone:</label>
+          <input type="text" id="create-phone" required />
 
-      <!-- Formulário para criar novo Quiz -->
-      <div v-if="showCreateQuizForm">
-        <div id="appQuiz" class="container">
-          <h2>Create Quiz</h2>
-          <div>
-            <label for="quiz-name">Nome do Quiz:</label>
-            <input type="text" id="quiz-name" v-model="newQuiz.name" required />
-          </div>
-          <div v-for="(question, index) in newQuiz.questions" :key="index">
-            <label for="'question-' + index">Pergunta {{ index + 1 }}:</label>
-            <input
-              type="text"
-              :id="'question-' + index"
-              v-model="question.question"
-              required />
-            <div v-for="(option, oIndex) in question.options" :key="oIndex">
-              <input type="text" v-model="option.opcion" required />
-              <input type="checkbox" v-model="option.correct" />
-              <label>Correta</label>
-            </div>
-            <button class="btn btn-custom" @click="removeQuestion(index)">
-              Remove Question
-            </button>
-          </div>
-          <button class="btn btn-custom" @click="addQuestion">
-            Add Question
+          <button class="btn btn-custom" type="button" @click="saveUser">
+            Criar Novo Usuário
           </button>
-          <button class="btn btn-custom" @click="saveQuiz">Save Quiz</button>
-          <button class="btn btn-custom" @click="cancelCreateQuiz">
+          <button class="btn btn-custom" type="button" @click="closeNewUser()">
             Cancel
           </button>
         </div>
+
+        <!-- Formulário de edição de usuário -->
+        <div class="form-custom" v-if="showEditForm">
+          <h3>Editar Usuário</h3>
+          <label for="edit-email">Email:</label>
+          <input
+            type="text"
+            id="edit-email"
+            v-model="editUser.email"
+            required />
+
+          <label for="edit-firstName">First Name:</label>
+          <input
+            type="text"
+            id="edit-firstName"
+            v-model="editUser.firstName"
+            required />
+
+          <label for="edit-lastName">Last Name:</label>
+          <input
+            type="text"
+            id="edit-lastName"
+            v-model="editUser.lastName"
+            required />
+
+          <label for="edit-phone">Phone:</label>
+          <input
+            type="text"
+            id="edit-phone"
+            v-model="editUser.phone"
+            required />
+
+          <button class="btn btn-custom" type="button" @click="updateUser">
+            Salvar Alterações
+          </button>
+          <button class="btn btn-custom" type="button" @click="cancelEdit">
+            Cancelar
+          </button>
+        </div>
+      </div>
+
+      <!-- Contêiner do quiz-->
+      <div id="appQuiz">
+        <!-- Botão para carregar Quiz com a função associada 'fetchQuiz' -->
+        <button
+          class="btn btn-custom"
+          id="mostrarQuiz"
+          @click="fetchQuizzes"
+          v-if="LoadQuizButton">
+          Load Quiz
+        </button>
+
+        <!-- Botão para criar novo Quiz com a função associada 'showCreateQuizButton'-->
+        <button
+          class="btn btn-custom"
+          id="mostrarFormquiz"
+          @click="showCreateQuizForm = true"
+          v-if="showCreateQuizButton">
+          Create New Quiz
+        </button>
+
+        <!-- Botão para fechar a tabela de Quiz com a função associada 'closeQuiz()' -->
+        <button
+          class="btn btn-custom"
+          id="ocultarQuiz"
+          v-if="CloseQuizButton"
+          @click="closeTableQuiz">
+          Close table
+        </button>
+
+        <!-- Tabela de Quiz -->
+        <table class="table table-dark">
+          <!-- Cabeçalho da tabela, renderizado se 'showTableHeader' for verdadeiro -->
+          <thead v-if="showTableHeaderQuiz">
+            <tr>
+              <th>ID</th>
+              <th>Quiz Name</th>
+              <th>Number questions</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <!-- Corpo da tabela, exibindo dados dos Quiz -->
+          <tbody>
+            <tr v-for="quiz in quizzes" :key="quiz._id">
+              <td>{{ quiz._id }}</td>
+              <td>{{ quiz.name }}</td>
+              <td>{{ quiz.questions.length }}</td>
+              <td>
+                <!-- Botões de ação para editar e excluir Quiz -->
+                <button class="btn btn-custom" @click="editQuiz(quiz._id)">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-custom" @click="deleteQuiz(quiz._id)">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Formulário para Quiz -->
+        <div class="form-group" v-if="showCreateQuizForm">
+          <div class="form-custom">
+            <div id="appQuiz" class="container">
+              <div>
+                <label for="quiz-name">Nome do Quiz:</label>
+                <input
+                  type="text"
+                  id="quiz-name"
+                  v-model="newQuiz.name"
+                  required />
+              </div>
+              <div v-for="(question, index) in newQuiz.questions" :key="index">
+                <label for="'question-' + index"
+                  >Pergunta {{ index + 1 }}:</label
+                >
+                <input
+                  type="text"
+                  :id="'question-' + index"
+                  v-model="question.question"
+                  required />
+                <div v-for="(option, oIndex) in question.options" :key="oIndex">
+                  <input type="text" v-model="option.opcion" required />
+                  <input type="checkbox" v-model="option.correct" />
+                  <label>Correta</label>
+                </div>
+                <button class="btn btn-custom" @click="removeQuestion(index)">
+                  Remove Question
+                </button>
+              </div>
+              <button class="btn btn-custom" @click="addQuestion">
+                Add Question
+              </button>
+              <button class="btn btn-custom" @click="saveQuiz">
+                Save Quiz
+              </button>
+              <button class="btn btn-custom" @click="cancelCreateQuiz">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Script para recarregar a página -->
-    <script>
-      closeQuiz = () => {
-        window.location.reload(); // Recarrega a página
-      };
-    </script>
-
-    <!-- Script para recarregar a página ao fechar a tabela de usuários -->
-    <script>
-      closeUsers = () => {
-        window.location.reload(); // Recarrega a página
-      };
-    </script>
     <!-- Importa os scripts JavaScript modulares -->
     <script type="module" src="./components/Admin.js"></script>
     <script src="./components/Logout.js"></script>

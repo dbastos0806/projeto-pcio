@@ -55,13 +55,12 @@
         Load Quiz
       </button>
 
-      <!-- Botão para fechar a tabela de Quiz com a função associada 'closeQuiz()' -->
       <button
         class="btn btn-custom"
         id="ocultarQuiz"
         v-if="CloseQuizButton"
-        onclick="closeQuiz()">
-        Close Table
+        @click="closeTableQuiz">
+        Close table
       </button>
 
       <!-- Tabela de Quiz -->
@@ -127,13 +126,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Script para recarregar a página ao fechar a tabela de usuários -->
-      <script>
-        closeQuiz = () => {
-          window.location.reload(); // Recarrega a página
-        };
-      </script>
 
       <!-- JavaScript Modules -->
       <script type="module" src="./components/User.js"></script>
